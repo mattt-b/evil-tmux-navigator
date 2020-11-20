@@ -18,12 +18,9 @@ Install it with something like
 or however you'd like, and make sure to make some keybindings for it. I use doom, so:
 
 ```elisp
-(use-package! evil-tmux-navigator)
-(map!
- :ni "C-h" #'evil-tmux-navigator-left
- :ni "C-j" #'evil-tmux-navigator-down
- :ni "C-k" #'evil-tmux-navigator-up
- :ni "C-l" #'evil-tmux-navigator-right)
+(use-package evil-tmux-navigator)
+  :config
+  (evil-tmux-navigator-bind-keys))
 ```
 
 You also have to setup commands in your `~/.tmux.conf`:
