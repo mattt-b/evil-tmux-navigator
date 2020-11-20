@@ -1,30 +1,28 @@
 # evil-tmux-navigator
 
-Warning:
-
-![](http://cl.ly/VDhe/no-idea-what-im-doing-dog.jpg)
-
---------
-
-This is an emacs package...I think? While trying to see what emacs is
-all about I felt very out of place without
-[vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)
-so I wrote one.
+A fork of a fork of a port of
+[vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator).
+The code is identical to the upstream fork (unless I've let it get out of date);
+I just corrected errors in the README.
 
 This is meant to work with [evil](http://www.emacswiki.org/emacs/Evil)
 which gives you vim bindings in emacs.
 
-After installing evil install (assuming emacs >= 24 using
-[ELPA](http://www.emacswiki.org/emacs/ELPA)) this with:
+Install it with something like
 
+```elisp
+(straight-use-package
+  '(evil-tmux-navigator :type git :host github :repo "ambirdsall/evil-tmux-navigator"))
 ```
-M-x package-install RET navigate RET
-```
 
-Then require it in your `~/.emacs` with:
+or however you'd like, and make sure to make some keybindings for it. I use doom, so:
 
-```lisp
-(require 'navigate)
+```elisp
+(map!
+ :ni "C-h" #'evil-tmux-navigator-left
+ :ni "C-j" #'evil-tmux-navigator-down
+ :ni "C-k" #'evil-tmux-navigator-up
+ :ni "C-l" #'evil-tmux-navigator-right)
 ```
 
 You also have to setup commands in your `~/.tmux.conf`:
@@ -38,7 +36,4 @@ bind -n C-l run "(tmux display-message -p '#{pane_current_command}' | grep -iqE 
 
 #### Troubleshooting
 
-As stated I have no idea what I'm doing in emacs so if any of this is
-ridiculous/not working please let me know.
-
-`RET` == return in emacs lingo.
+Good luck!
