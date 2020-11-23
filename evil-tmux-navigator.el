@@ -117,10 +117,6 @@ group"
           evil-tmux-navigator-pane-right-key
           'tmux-navigate-right))
     (progn
-      ;; Unset key-bindings to avoid conflicts
-      (dolist (key bindings)
-        (progn (print key)(global-unset-key key)))
-
       (define-key evil-normal-state-map
         evil-tmux-navigator-pane-left-key
         'tmux-navigate-left)
