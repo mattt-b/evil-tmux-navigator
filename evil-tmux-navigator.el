@@ -32,6 +32,10 @@
   :prefix "evil-tmux-navigator-"
   :group 'evil)
 
+(defcustom evil-tmux-navigator-select-pane-function nil
+  "If not nil call this function with a direction to set pane"
+  :type 'function
+  :group 'evil-tmux-navigator)
 (defcustom evil-tmux-navigator-bind-on-evil-window-map nil
   "If nill, bind evil-tmux-navigator keys on evil-normal-map and
 evil-motion-state-map. Else, bind on evil-window-map."
@@ -88,12 +92,13 @@ evil-motion-state-map. Else, bind on evil-window-map."
     (condition-case nil
         (funcall (read cmd))
       (error
-       (tmux-select-pane direction)))))
+       (unless (display-graphic-p)
+         (tmux-select-pane (tmux-direction direction)))))))
 
 (defun tmux-select-pane (direction)
-  (shell-command-to-string
-   (concat "tmux select-pane -"
-           (tmux-direction direction))))
+  (if evil-tmux-navigator-select-pane-function
+      (funcall evil-tmux-navigator-select-pane-function direction)
+    (start-process-shell-command "" nil (concat "tmux select-pane -" direction))))
 
 (defun tmux-direction (direction)
   (upcase
@@ -129,7 +134,7 @@ group"
       (define-key evil-normal-state-map
         evil-tmux-navigator-pane-right-key
         'tmux-navigate-right)
-      
+
       (define-key evil-motion-state-map
         evil-tmux-navigator-pane-left-key
         'tmux-navigate-left)
